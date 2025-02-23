@@ -1,114 +1,39 @@
-<!doctype html>
-<html> 
- <head> 
-  <title>7th Pay Calculator</title> 
-  <style>
-        .calculator {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-        }
-        .input-group {
-            margin: 15px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        select, input {
-            padding: 8px;
-            margin: 5px 0;
-            width: 100%;
-            max-width: 300px;
-        }
-        .custom-option {
-            display: none;
-            margin-top: 10px;
-        }
-        .result {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #f0f8ff;
-            border-radius: 5px;
-        }
-        .disclaimer {
-            font-size: 0.8em;
-            color: #666;
-            margin-top: 20px;
-        }
-    </style> 
- </head> 
- <body> 
-  <div class="calculator"> 
-   <h2>7th Pay Commission Calculator</h2> <!-- Pay Level Selection --> 
-   <div class="input-group"> <label>1. Select Pay Level:</label> <select id="payLevel" onchange="toggleCustom('levelCustom', this)"> <option value="6-4200">Level 6 (GP: 4200)</option> <option value="7-4600">Level 7 (GP: 4600)</option> <option value="8-4800">Level 8 (GP: 4800)</option> <option value="9-5400">Level 9 (GP: 5400)</option> <option value="10-6600">Level 10 (GP: 6600)</option> <option value="custom">Custom Level &amp; GP</option> </select> 
-    <div id="levelCustom" class="custom-option">
-      Level: 
-     <input type="number" id="customLevel"> Grade Pay: 
-     <input type="number" id="customGP"> 
-    </div> 
-   </div> <!-- Basic Pay Selection --> 
-   <div class="input-group"> <label>2. Select Basic Pay:</label> <select id="basicPay" onchange="toggleCustom('basicCustom', this)"> <option value="35400">₹35,400</option> <option value="44900">₹44,900</option> <option value="47600">₹47,600</option> <option value="53100">₹53,100</option> <option value="custom">Custom Basic Pay</option> </select> 
-    <div id="basicCustom" class="custom-option"> 
-     <input type="number" id="customBasic" placeholder="Enter basic pay"> 
-    </div> 
-   </div> <!-- HRA Selection --> 
-   <div class="input-group"> <label>3. Select City Type for HRA:</label> <select id="hraType"> <option value="24">X City (24%)</option> <option value="16">Y City (16%)</option> <option value="8">Z City (8%)</option> </select> 
-   </div> <!-- TA Selection --> 
-   <div class="input-group"> <label>4. Select City Type for TA:</label> <select id="taType"> <option value="3600">X City (₹3,600)</option> <option value="1800">Y City (₹1,800)</option> <option value="900">Z City (₹900)</option> </select> 
-   </div> <!-- DA Selection --> 
-   <div class="input-group"> <label>5. Select DA Percentage:</label> <select id="daPercentage" onchange="toggleCustom('daCustom', this)"> <option value="50">50%</option> <option value="46">46%</option> <option value="42">42%</option> <option value="custom">Custom DA %</option> </select> 
-    <div id="daCustom" class="custom-option"> 
-     <input type="number" id="customDA" placeholder="Enter DA percentage"> 
-    </div> 
-   </div> <button onclick="calculateSalary()" style="padding: 10px 20px; margin: 10px 0;">Calculate Salary</button> 
-   <div class="result" id="result"></div> 
-   <div class="disclaimer">
-     *Disclaimer: This calculator provides approximate calculations based on 7th Pay Commission guidelines. Actual salary components may vary depending on government rules and individual circumstances. 
-   </div> 
-  </div> 
-  <script>
-        function toggleCustom(elementId, select) {
-            const customDiv = document.getElementById(elementId);
-            customDiv.style.display = (select.value === 'custom') ? 'block' : 'none';
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">MyWebsite</a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
 
-        function calculateSalary() {
-            // Get basic pay
-            let basicPay = document.getElementById('basicPay').value;
-            if (document.getElementById('basicPay').value === 'custom') {
-                basicPay = parseFloat(document.getElementById('customBasic').value) || 0;
-            }
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Welcome to My Website</h1>
+            <p>Your one-stop destination for amazing content.</p>
+            <a href="#" class="btn">Learn More</a>
+        </div>
+    </section>
 
-            // Get DA percentage
-            let daPercent = document.getElementById('daPercentage').value;
-            if (daPercent === 'custom') {
-                daPercent = parseFloat(document.getElementById('customDA').value) || 0;
-            }
-
-            // Get HRA and TA values
-            const hraPercent = parseFloat(document.getElementById('hraType').value);
-            const taAmount = parseFloat(document.getElementById('taType').value);
-
-            // Convert to numbers
-            basicPay = parseFloat(basicPay);
-            daPercent = parseFloat(daPercent);
-
-            // Calculations
-            const da = basicPay * (daPercent / 100);
-            const hra = basicPay * (hraPercent / 100);
-            const totalSalary = basicPay + da + hra + taAmount;
-
-            // Display result
-            document.getElementById('result').innerHTML = `
-                <h3>Salary Breakdown:</h3>
-                <p>Basic Pay: ₹${basicPay.toLocaleString()}</p>
-                <p>DA (${daPercent}%): ₹${da.toLocaleString()}</p>
-                <p>HRA (${hraPercent}%): ₹${hra.toLocaleString()}</p>
-                <p>TA: ₹${taAmount.toLocaleString()}</p>
-                <h4>Total Salary: ₹${totalSalary.toLocaleString()}</h4>
-            `;
-        }
-    </script> 
- 
-</body></html>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 MyWebsite. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
